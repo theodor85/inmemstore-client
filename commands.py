@@ -69,8 +69,24 @@ def command_del():
 
 
 @register_command(name='list')
-def command_list():
-    return 'list OK'
+def command_list(user_input: str) -> str:
+
+    message = ''
+
+    URL = 'http://0.0.0.0:8080/keys'
+    try:
+        response = requests.get(URL)
+    except ConnectionError:
+        message = 'Connection error while connect to server'
+    else:
+        if response.status_code != 200:
+            message = 'Server error with status code '
+            f'{response.status_code}'
+        else:
+            for key, value in response.json().items():
+                message += f'{key}={value} '
+
+    return message
 
 
 @register_command(name='clear')
