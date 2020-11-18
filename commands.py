@@ -90,5 +90,20 @@ def command_list(user_input: str) -> str:
 
 
 @register_command(name='clear')
-def command_clear():
-    return 'clear OK'
+def command_clear(user_input: str) -> str:
+
+    message = ''
+
+    URL = 'http://0.0.0.0:8080/keys/clear'
+    try:
+        response = requests.post(URL)
+    except ConnectionError:
+        message = 'Connection error while connect to server'
+    else:
+        if response.status_code != 204:
+            message = 'Server error with status code '
+            f'{response.status_code}'
+        else:
+            message = 'Storage was cleaned successfully'
+
+    return message
