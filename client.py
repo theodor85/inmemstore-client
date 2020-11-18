@@ -1,14 +1,15 @@
 from typing import Tuple, Optional, Callable
 
-
-def command():
-    return 'OK'
+from commands import COMMANDS
 
 
 def parse_command(input_command: str) -> Tuple[str, Optional[Callable]]:
-    if input_command not in ['set', 'get']:
+
+    str_command = input_command.split(' ')[0].strip()
+
+    if str_command not in COMMANDS.keys():
         return 'Unknown command', None
-    return '', command
+    return '', COMMANDS[str_command]
 
 
 def head():
@@ -35,7 +36,7 @@ def main():
         if error_message:
             print(error_message)
         else:
-            message = command()
+            message = command(input_command)
             print(message)
 
 
