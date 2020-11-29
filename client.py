@@ -1,15 +1,20 @@
-from typing import Tuple, Optional, Callable
+from typing import Tuple, Optional, Callable, List
 
 from commands import COMMANDS
 
 
 def parse_command(input_command: str) -> Tuple[str, Optional[Callable]]:
-
     str_command = input_command.split(' ')[0].strip()
-
-    if str_command not in COMMANDS.keys():
+    if not is_command_valid(str_command, COMMANDS.keys()):
         return 'Unknown command', None
     return '', COMMANDS[str_command]
+
+
+def is_command_valid(command: str, command_list: List) -> bool:
+    if command in command_list:
+        return True
+    else:
+        return False
 
 
 def head():
